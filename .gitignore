@@ -1,0 +1,5 @@
+.env
+.venv
+rough.ipynb
+rough2-data.ipynb
+__pycache__/
