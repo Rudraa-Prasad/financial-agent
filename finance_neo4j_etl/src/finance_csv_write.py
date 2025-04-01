@@ -11,6 +11,9 @@ ACCOUNTS_CSV_PATH = os.getenv("ACCOUNTS_CSV_PATH")
 TRANSACTIONS_CSV_PATH = os.getenv("TRANSACTIONS_CSV_PATH")
 REVIEWS_CSV_PATH = os.getenv("REVIEWS_CSV_PATH")
 
+HOSPITALS_CSV_PATH = os.getenv("HOSPITALS_CSV_PATH")
+
+
 NEO4J_URI = os.getenv("NEO4J_URI")
 NEO4J_USERNAME = os.getenv("NEO4J_USERNAME")
 NEO4J_PASSWORD = os.getenv("NEO4J_PASSWORD")
@@ -47,44 +50,19 @@ def load_finance_graph_from_csv() -> None:
             session.execute_write(_set_uniqueness_constraints, node)
 
     # Load Nodes
-    # LOGGER.info("Loading branch nodes")
-    # with driver.session(database="neo4j") as session:
-    #     query = f"""
-    #     LOAD CSV WITH HEADERS FROM '{BRANCHES_CSV_PATH}' AS branches
-    #     WITH branches 
-    #     WHERE branches.branch_name IS NOT NULL AND trim(branches.branch_name) <> ''
-    #     MERGE (b:Branch {id: toInteger(branches.branch_id),
-    #             name: branches.branch_name,
-    #             location: branches.location});
-    #             """
-        # LOAD CSV WITH HEADERS FROM '{BRANCHES_CSV_PATH}' AS branches
-        # MERGE (b:Branch {{id: toInteger(branches.branch_id),
-        #                 name: branches.branch_name,
-            #                 location: branches.location}});
     LOGGER.info("Loading branch nodes")
     with driver.session(database="neo4j") as session:
-        # Ensure BRANCHES_CSV_PATH is a proper string
-        if isinstance(BRANCHES_CSV_PATH, str):
-            query = f"""
-            LOAD CSV WITH HEADERS FROM '{BRANCHES_CSV_PATH}' AS branches
-            WITH branches 
-            WHERE branches.branch_name IS NOT NULL AND trim(branches.branch_name) <> ''
-            MERGE (b:Branch {{
-                id: toInteger(branches.branch_id),
+        query = f"""
+        LOAD CSV WITH HEADERS 
+        FROM '{BRANCHES_CSV_PATH}' AS branches
+        MERGE (b:Branch {{id: toInteger(branches.branch_id),
                 name: branches.branch_name,
-                location: branches.location
-            }});
-            """
-        else:
-            LOGGER.error(f"Invalid file path: {BRANCHES_CSV_PATH}")
-            raise ValueError("BRANCHES_CSV_PATH is not a valid string")
-
-    # Run the query
-
-
-
+                location: branches.location}});
+                """
 
         _ = session.run(query, {})
+
+
 
     
 
