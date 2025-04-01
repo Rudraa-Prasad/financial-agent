@@ -1,9 +1,9 @@
 version: '3'
 
 services:
-  hospital_neo4j_etl:
+  finance_neo4j_etl:
     build:
-      context: ./hospital_neo4j_etl
+      context: ./finance_neo4j_etl
     env_file:
       - .env
 
