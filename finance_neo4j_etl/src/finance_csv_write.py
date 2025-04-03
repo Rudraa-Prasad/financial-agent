@@ -54,9 +54,9 @@ def load_finance_graph_from_csv() -> None:
     with driver.session(database="neo4j") as session:
         query = f"""
         LOAD CSV WITH HEADERS 
-        FROM '{BRANCHES_CSV_PATH}' AS branches
+        FROM '{BRANCHES_CSV_PATH}' AS branches 
         MERGE (b:Branch {{id: toInteger(branches.branch_id),
-                name: branches.branch_name,
+                        name: branches.branch_name,
                 location: branches.location}});
                 """
 
