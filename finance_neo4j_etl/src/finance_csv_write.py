@@ -50,26 +50,31 @@ def load_finance_graph_from_csv() -> None:
             session.execute_write(_set_uniqueness_constraints, node)
 
     # Load Nodes
-    LOGGER.info("Loading branch nodes")
-    with driver.session(database="neo4j") as session:
-        query = f"""
-        LOAD CSV WITH HEADERS 
-        FROM '{BRANCHES_CSV_PATH}' AS branches 
-        MERGE (b:Branch {{id: toInteger(branches.branch_id),
-                name: branches.branch_name,
-                location: branches.location}});
-                """
-
-        _ = session.run(query, {})
-
-
-    # LOGGER.info("Loading employee nodes")
+    # LOGGER.info("Loading branch nodes")
     # with driver.session(database="neo4j") as session:
     #     query = f"""
-    #     LOAD CSV WITH HEADERS FROM '{EMPLOYEES_CSV_PATH}' AS employees
-    #     MERGE (e:Employee {{id: toInteger(employees.employee_id), employee_name: employees.employee_name, position: employees.position, year_of_joining: toInteger(employees.year_of_joining), salary: toFloat(employees.salary)}});
-    #     """
+    #     LOAD CSV WITH HEADERS 
+    #     FROM '{BRANCHES_CSV_PATH}' AS branches 
+    #     MERGE (b:Branch {{id: toInteger(branches.branch_id),
+    #             name: branches.branch_name,
+    #             location: branches.location}});
+    #             """
+
     #     _ = session.run(query, {})
+
+
+    LOGGER.info("Loading employee nodes")
+    with driver.session(database="neo4j") as session:
+        query = f"""
+        LOAD CSV WITH HEADERS FROM '{EMPLOYEES_CSV_PATH}' AS employees
+        MERGE (e:Employee {{id: toInteger(employees.employee_id)}})
+        SET e.employee_name = employees.employee_name,
+            e.position = employees.position,
+            e.year_of_joining = toInteger(employees.year_of_joining),
+            e.salary = toFloat(employees.salary);
+        """
+        _ = session.run(query, {})
+
 
     # LOGGER.info("Loading customer nodes")
     # with driver.session(database="neo4j") as session:
