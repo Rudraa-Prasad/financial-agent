@@ -1,0 +1,18 @@
+[project]
+name = "chatbot_api"
+version = "0.1"
+dependencies = [
+    "fastapi==0.115.11",               # ✅ Fully supports Pydantic v2
+    "pydantic==2.10.6",                # ✅ Required by LangChain
+    "langchain==0.3.20",               # ✅ Requires Pydantic >=2.7.4
+    "langchainhub==0.1.14",
+    "neo4j==5.14.1",
+    "numpy==1.26.2",
+    "opentelemetry-api==1.22.0",
+    "uvicorn==0.34.0"
+]
+
+
+
+[project.optional-dependencies]
+dev = ["black", "flake8"]

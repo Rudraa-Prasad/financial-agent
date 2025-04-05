@@ -1,0 +1,12 @@
+fastapi==0.115.11
+pydantic==2.10.6
+langchain==0.3.20
+langchainhub==0.1.14
+neo4j==5.14.1
+numpy==1.26.2
+opentelemetry-api==1.22.0
+uvicorn==0.34.0
+
+[dev]
+black
+flake8
